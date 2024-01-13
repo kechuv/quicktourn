@@ -1,0 +1,7 @@
+{
+  "./src/**/*.{js,jsx,ts,tsx,svelte}": [
+    "npm run lint -- --fix",
+    "npm run check",
+    "npm run test -- --run"
+  ]
+}
