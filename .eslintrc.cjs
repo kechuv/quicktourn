@@ -1,9 +1,7 @@
 /** @type { import("eslint").Linter.Config } */
 module.exports = {
   root: true,
-  plugins: [
-    '@stylistic',
-  ],
+  plugins: ['@stylistic'],
   extends: [
     'eslint:recommended',
     'plugin:svelte/recommended',
@@ -12,9 +10,7 @@ module.exports = {
   parserOptions: {
     sourceType: 'module',
     ecmaVersion: 'latest',
-    extraFileExtensions: [
-      '.svelte',
-    ],
+    extraFileExtensions: ['.svelte'],
   },
   env: {
     browser: true,
@@ -25,98 +21,43 @@ module.exports = {
     'no-console': [
       'error',
       {
-        allow: [
-          'warn',
-          'error',
-        ],
+        allow: ['warn', 'error'],
       },
     ],
-    'eqeqeq': [
-      'error',
-    ],
-    'max-depth': [
-      'error',
-      3,
-    ],
-    'max-params': [
-      'error',
-      3,
-    ],
-    'complexity': [
-      'error',
-      5,
-    ],
-    '@stylistic/array-bracket-newline': [
+    'eqeqeq': ['error'],
+    'max-depth': ['error', 3],
+    'max-params': ['error', 3],
+    'complexity': ['error', 5],
+    '@stylistic/array-bracket-newline': ['error'],
+    '@stylistic/array-element-newline': ['error', 'consistent'],
+    '@stylistic/function-call-argument-newline': ['error', 'consistent'],
+    '@stylistic/function-paren-newline': ['error', 'multiline'],
+    '@stylistic/indent': ['error', 2],
+    '@stylistic/linebreak-style': ['error', 'unix'],
+    '@stylistic/max-statements-per-line': ['error'],
+    '@stylistic/multiline-ternary': ['error', 'always'],
+    '@stylistic/newline-per-chained-call': ['error'],
+    '@stylistic/no-multi-spaces': ['error'],
+    '@stylistic/no-multiple-empty-lines': ['error'],
+    '@stylistic/no-trailing-spaces': ['error'],
+    '@stylistic/object-curly-newline': ['error'],
+    '@stylistic/object-property-newline': ['error'],
+    '@stylistic/operator-linebreak': ['error', 'before'],
+    '@stylistic/quotes': ['error', 'single'],
+    '@stylistic/semi': ['error', 'always'],
+    '@stylistic/space-before-function-paren': ['error', 'never'],
+    '@stylistic/spaced-comment': ['error'],
+    'svelte/first-attribute-linebreak': ['error'],
+    'svelte/html-closing-bracket-spacing': ['error'],
+    'svelte/max-attributes-per-line': ['error'],
+    'svelte/html-self-closing': ['error'],
+    'svelte/indent': [
       'error',
       {
-        minItems: 1,
+        indent: 2,
+        indentScript: false,
       },
     ],
-    '@stylistic/array-element-newline': [
-      'error',
-      {
-        minItems: 1,
-      },
-    ],
-    '@stylistic/function-call-argument-newline': [
-      'error',
-      'consistent',
-    ],
-    '@stylistic/function-paren-newline': [
-      'error',
-      'multiline',
-    ],
-    '@stylistic/indent': [
-      'error',
-      2,
-    ],
-    '@stylistic/linebreak-style': [
-      'error',
-      'unix',
-    ],
-    '@stylistic/max-statements-per-line': [
-      'error',
-    ],
-    '@stylistic/multiline-ternary': [
-      'error',
-      'always',
-    ],
-    '@stylistic/newline-per-chained-call': [
-      'error',
-    ],
-    '@stylistic/no-multi-spaces': [
-      'error',
-    ],
-    '@stylistic/no-multiple-empty-lines': [
-      'error',
-    ],
-    '@stylistic/no-trailing-spaces': [
-      'error',
-    ],
-    '@stylistic/object-curly-newline': [
-      'error',
-    ],
-    '@stylistic/object-property-newline': [
-      'error',
-    ],
-    '@stylistic/operator-linebreak': [
-      'error',
-      'before',
-    ],
-    '@stylistic/quotes': [
-      'error',
-      'single',
-    ],
-    '@stylistic/semi': [
-      'error',
-      'always',
-    ],
-    '@stylistic/space-before-function-paren': [
-      'error',
-      'never',
-    ],
-    '@stylistic/spaced-comment': [
-      'error',
-    ],
+    'svelte/sort-attributes': ['error'],
   },
 };
