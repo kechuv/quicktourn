@@ -17,6 +17,20 @@ module.exports = {
     es2017: true,
     node: true,
   },
+  overrides: [
+    {
+      files: ['*.svelte'],
+      parser: 'svelte-eslint-parser',
+    },
+    {
+      files: ['*.svelte.js'],
+      parser: 'svelte-eslint-parser',
+    },
+    {
+      files: ['*.svelte.ts'],
+      parser: 'svelte-eslint-parser',
+    },
+  ],
   rules: {
     'no-console': [
       'error',
