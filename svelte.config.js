@@ -10,6 +10,9 @@ const config = {
     adapter: adapter(),
   },
   preprocess: vitePreprocess(),
+  compilerOptions: {
+    runes: true,
+  },
 };
 
 export default config;
