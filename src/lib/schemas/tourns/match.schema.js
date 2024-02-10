@@ -7,9 +7,9 @@ export const matchScore = z.object({
   isBye: z.boolean(),
 });
 
-/** @param {MatchScore['player']} [player] */
+/** @param {MatchScore['player']} player */
 export const createMatchScore = player => matchScore.parse({
-  player: player ?? 'BYE',
+  player: player || 'BYE',
   isBye: !player,
   score: null,
 });

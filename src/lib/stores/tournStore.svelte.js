@@ -1,70 +1,21 @@
-import { createTourn } from '$lib/schemas/tourns/tourn.schema';
-import { getStorage, setStorage } from '$lib/tools/localStorage';
+import { useTournListStore } from './tournListStore.svelte';
 
-function createTournStore() {
-  /** @typedef {import('$lib/schemas/tourns/tourn.schema').TournSchema} Tourn */
+export function useTournStore() {
+  let tournListStore = useTournListStore();
+  let tourn = $derived(tournListStore.currentTourn);
 
-  /** @type {Record<Tourn['slug'], Tourn>} */
-  let tournList = $state({});
-  /** @type {Tourn['slug']} */
-  let lastTourn = $state('');
-
-  $effect.root(function initTournStore() {
-    tournList = getStorage('tourns', getTournList);
-    lastTourn = getStorage('lastTourn', getLastTourn);
-
-    $effect(function saveTournList() {
-      setStorage('tourns', () => tournList || {});
+  /** @param {Partial<typeof tourn>} tournData */
+  function updateTourn(tournData) {
+    tournListStore.updateTourn({
+      ...tourn,
+      ...tournData,
     });
-    $effect(function saveLastTourn() {
-      setStorage('lastTourn', () => lastTourn || '');
-    });
-  });
-
-  /** @param {Record<Tourn['slug'], Tourn>} tourns */
-  function getTournList(tourns) {
-    const values = Object.values(tourns || {});
-    if (!values?.length) return {};
-    values.forEach(tourn => createTourn(tourn));
-    return tourns;
-  }
-  /** @param {Tourn['slug']} tournSlug */
-  function getLastTourn(tournSlug) {
-    if (!tournSlug) return '';
-    return tournSlug;
   }
 
-  return function TournStore() {
-    /** @param {Tourn['slug']} tourn */
-    function setLastTourn(tourn) {
-      lastTourn = tourn;
-    }
-
-    /** @param {Tourn} tourn */
-    function addTourn(tourn) {
-      tournList = {
-        ...tournList,
-        [tourn.slug]: tourn,
-      };
-    }
-
-    /** @param {Tourn['slug']} id */
-    function getTourn(id) {
-      return tournList[id];
-    }
-
-    return {
-      get tournList() {
-        return tournList;
-      },
-      get lastTourn() {
-        return getTourn(lastTourn);
-      },
-      addTourn,
-      setLastTourn,
-      getTourn,
-    };
+  return {
+    get tourn() {
+      return tourn;
+    },
+    updateTourn,
   };
 }
-
-export const useTournStore = createTournStore();
