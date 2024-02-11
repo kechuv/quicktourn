@@ -60,6 +60,20 @@ function createRoundRobin(pArray) {
   return roundsArr.map(r => chunk(r, 2));
 }
 
+// /** @param {number} input */
+// const getNearestExponentPowerOf2 = input => input > 1
+//   ? Math.ceil(Math.log(input) / Math.log(2))
+//   : 1;
+
 // /** @type {FormatCreator} */
 // function createSingleBracket(pArray) {
+//   const copy = [...pArray];
+//   const roundsLength = getNearestExponentPowerOf2(copy.length);
+//   const slots = new Array(roundsLength ** 2).fill(null)
+//     .map(p => createMatchScore(p));
+//   const roundsArr = new Array(roundsLength)
+//     .fill(null)
+//     .reduce((acc, r, rIdx) => {
+
+//     }, []);
 // }
