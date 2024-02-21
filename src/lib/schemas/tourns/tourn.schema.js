@@ -9,6 +9,7 @@ export const tournFormats = z.enum([
   'singleBracket',
 ]);
 
+/** @typedef {Record<TournSchema['slug'], TournSchema>} TournsMap */
 /** @typedef {z.infer<typeof tournSchema>} TournSchema */
 export const tournSchema = z.object({
   id: z.string().uuid()

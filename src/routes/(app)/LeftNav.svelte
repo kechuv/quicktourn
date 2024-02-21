@@ -1,9 +1,9 @@
 <script>
 import { goto } from '$app/navigation';
-import { useTournListStore } from '$lib/stores/tournListStore.svelte';
+import { useTournStore } from '$lib/stores/tournStore.svelte';
 
-const tournListStore = useTournListStore();
-const tournList = $derived(Object.values(tournListStore.tournList || {}));
+const tournStore = useTournStore();
+const tournList = $derived(Object.values(tournStore.tournList || {}));
 
 /**
  * @param {string} slug

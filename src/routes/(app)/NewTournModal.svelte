@@ -1,11 +1,11 @@
 <script>
 import { goto, pushState } from '$app/navigation';
 import { page } from '$app/stores';
-import { useTournListStore } from '$lib/stores/tournListStore.svelte';
+import { useTournStore } from '$lib/stores/tournStore.svelte';
 import { createTourn } from '$lib/schemas/tourns/tourn.schema';
 
-const tournListStore = useTournListStore();
-const { addTourn, setLastTourn } = tournListStore;
+const tournStore = useTournStore();
+const { addTourn, setLastTourn } = tournStore;
 
 /** @type {HTMLDialogElement | undefined} */
 let dialog = $state();
@@ -34,7 +34,7 @@ function handleCreateTourn(format) {
     roundRobin: 'round robin',
   };
   const name = nameMappings[format];
-  const sameTypeTourns = Object.values(tournListStore.tournList).filter(t => t.format === format);
+  const sameTypeTourns = Object.values(tournStore.tournList).filter(t => t.format === format);
   const newTourn = createTourn({
     format,
     name: `${name} (${sameTypeTourns.length})`,

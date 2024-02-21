@@ -5,6 +5,7 @@ export const matchScore = z.object({
   player: z.string(),
   score: z.number().nullish(),
   isBye: z.boolean(),
+  status: z.enum(['win', 'lose', 'draw']).optional(),
 });
 
 /** @param {MatchScore['player']} player */

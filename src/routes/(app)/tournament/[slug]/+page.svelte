@@ -1,30 +1,41 @@
 <script>
-import { useParticipantStore } from '$lib/stores/participantStore.svelte';
-import { useRoundStore } from '$lib/stores/roundStore.svelte';
+import { useTournStore } from '$lib/stores/tournStore.svelte';
 import Participants from './Participants.svelte';
+import { formatFactory } from './formatFactory';
 
-const participantStore = useParticipantStore();
-const { register, unregister } = participantStore;
-const roundStore = useRoundStore();
-const { createRounds } = roundStore;
+const tournStore = useTournStore();
 
-/** @param {typeof participantStore.participants[0]} participant */
+const tourn = $derived(tournStore.currentTourn);
+const createRounds = $derived(formatFactory(tourn?.format));
+
+/** @param {typeof tourn.participants[0]} participant */
 function handleRegister(participant) {
-  register(participant);
-  createRounds();
+  if (!participant) return;
+  const updated = [...tourn.participants, participant];
+  const rounds = createRounds(updated);
+  tournStore.updateTourn({
+    ...tourn,
+    participants: updated,
+    rounds,
+  });
 }
-
-/** @param {typeof participantStore.participants[0]} participant */
+/** @param {typeof tourn.participants[0]} participant */
 function handleUnregister(participant) {
-  unregister(participant);
-  createRounds();
+  if (!tourn.participants.includes(participant)) return;
+  const updated = tourn.participants.filter(p => p !== participant);
+  const rounds = createRounds(updated);
+  tournStore.updateTourn({
+    ...tourn,
+    participants: updated,
+    rounds,
+  });
 }
 </script>
 
 <div>
-  {#if participantStore.participants}
+  {#if tourn?.participants}
     <Participants
-      participants={participantStore.participants}
+      participants={tourn.participants}
       register={handleRegister}
       unregister={handleUnregister}
     />

@@ -1,11 +1,11 @@
 <script>
 import { goto } from '$app/navigation';
 import { page } from '$app/stores';
-import { useTournListStore } from '$lib/stores/tournListStore.svelte';
+import { useTournStore } from '$lib/stores/tournStore.svelte';
 
 const slug = $derived($page.params.slug);
 
-const tournListStore = useTournListStore();
+const tournListStore = useTournStore();
 const { getTourn, setLastTourn } = tournListStore;
 
 $effect(() => {
