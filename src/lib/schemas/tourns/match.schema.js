@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+/** @typedef {MatchScore[]} Match */
+/** @typedef {Match[]} Round */
 /** @typedef {z.infer<typeof matchScore>} MatchScore */
 export const matchScore = z.object({
   player: z.string(),

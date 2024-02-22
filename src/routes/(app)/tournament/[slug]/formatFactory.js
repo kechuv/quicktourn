@@ -23,7 +23,7 @@ const reorder = (els, newOrder) => newOrder.map(idx => structuredClone(els[idx])
 /**
  * @callback FormatCreator
  * @param {import('$lib/schemas/tourns/tourn.schema').TournSchema['participants']} pArray
- * @returns {ReturnType<typeof createMatchScore>[][][]}
+ * @returns {import('$lib/schemas/tourns/match.schema').Round[]}
  */
 
 /** @type {FormatCreator} */
@@ -48,7 +48,8 @@ function createRoundRobin(pArray) {
 
 /** @type {FormatCreator} */
 function createSingleBracket(pArray) {
-  if (!pArray.length) return [];
+  /** @typedef {import('$lib/schemas/tourns/match.schema').Round} Round */
+  if (!pArray.length) return /** @type {Round[]} */([]);
 
   const copy = [...pArray];
   const roundsLength = getNearestExponentPowerOf2(copy.length);
@@ -56,13 +57,15 @@ function createSingleBracket(pArray) {
   const slots = new Array(slotsLength)
     .fill(null)
     .map((_, pIdx) => createMatchScore(copy[pIdx]));
+  /** @type {Round[]} */
   const roundsArr = new Array(roundsLength)
     .fill(null)
     .reduce((acc, r, rIdx) => {
       if (!rIdx) {
         const sort = sortMatches(roundsLength);
         const sorted = sort.map(idx => slots[idx]);
-        acc[rIdx] = chunk(sorted, 2);
+        const chunked = chunk(sorted, 2);
+        acc[rIdx] = chunked;
         return acc;
       }
       acc[rIdx] = new Array(acc[rIdx - 1].length / 2)
@@ -70,7 +73,8 @@ function createSingleBracket(pArray) {
         .map(() => ([null, null]));
       return acc;
     }, []);
-  return roundsArr;
+  const rounds = qualifyMatches(roundsArr);
+  return rounds;
 
   /** @param {number} input */
   function getNearestExponentPowerOf2(input) {
@@ -93,8 +97,22 @@ function createSingleBracket(pArray) {
     const flated = sortedMatches.flat(itrs);
     return flated;
   }
-  /** */
-  // function qualifyMatches() {
-
-  // }
+  /** @param {Round[]} rounds   */
+  function qualifyMatches(rounds) {
+    const round1 = [...rounds[0]];
+    const round2 = [...rounds[1]];
+    round1.forEach((match, matchIdx) => {
+      const hasBye = match.some(s => s.isBye);
+      if (!hasBye) return;
+      const realPlayerIdx = match.findIndex(s => !s.isBye);
+      const nextMatch = Math.floor(matchIdx / 2);
+      const nextSlot = matchIdx % 2;
+      round2[nextMatch][nextSlot] = createMatchScore(match[realPlayerIdx].player);
+    });
+    return rounds.map((r, rIdx) => {
+      if (rIdx === 0) return round1;
+      if (rIdx === 1) return round2;
+      return r;
+    });
+  }
 }

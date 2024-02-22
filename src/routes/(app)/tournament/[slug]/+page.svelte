@@ -1,5 +1,6 @@
 <script>
 import { useTournStore } from '$lib/stores/tournStore.svelte';
+import Bracket from './Bracket.svelte';
 import Participants from './Participants.svelte';
 import { formatFactory } from './formatFactory';
 
@@ -32,12 +33,19 @@ function handleUnregister(participant) {
 }
 </script>
 
-<div>
-  {#if tourn?.participants}
-    <Participants
-      participants={tourn.participants}
-      register={handleRegister}
-      unregister={handleUnregister}
-    />
-  {/if}
+<div class="grid grid-cols-[auto_1fr] gap-8">
+  <div class="p-2">
+    {#if tourn?.participants}
+      <Participants
+        participants={tourn.participants}
+        register={handleRegister}
+        unregister={handleUnregister}
+      />
+    {/if}
+  </div>
+  <div class="p-2">
+    {#if tourn?.format === 'singleBracket'}
+      <Bracket rounds={tourn.rounds} />
+    {/if}
+  </div>
 </div>
