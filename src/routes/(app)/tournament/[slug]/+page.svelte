@@ -31,6 +31,14 @@ function handleUnregister(participant) {
     rounds,
   });
 }
+
+/** @param {import('$lib/schemas/tourns/tourn.schema').RoundSchema[]} newRounds */
+function updateTourn(newRounds) {
+  tournStore.updateTourn({
+    ...tourn,
+    rounds: newRounds,
+  });
+}
 </script>
 
 <div class="grid grid-cols-[auto_1fr] gap-8">
@@ -45,7 +53,10 @@ function handleUnregister(participant) {
   </div>
   <div class="p-2">
     {#if tourn?.format === 'singleBracket'}
-      <Bracket rounds={tourn.rounds} />
+      <Bracket
+        rounds={tourn.rounds}
+        {updateTourn}
+      />
     {/if}
   </div>
 </div>

@@ -1,24 +1,19 @@
 import { z } from 'zod';
 
-/** @typedef {MatchScore[]} Match */
-/** @typedef {Match[]} Round */
-/** @typedef {z.infer<typeof matchScore>} MatchScore */
-export const matchScore = z.object({
+/** @typedef {z.infer<typeof slot>} Slot */
+export const slot = z.object({
   player: z.string(),
-  score: z.number().nullish(),
+  score: z.number().nullable(),
   isBye: z.boolean(),
-  status: z.enum(['win', 'lose', 'draw']).optional(),
+  status: z.enum(['win', 'lose', 'draw']).nullable(),
+  winner: z.boolean(),
 });
 
-/** @param {MatchScore['player']} player */
-export const createMatchScore = player => matchScore.parse({
-  player: player || 'BYE',
-  isBye: !player,
-  score: null,
-});
-
-export const matchSchema = z.object({
-  roundIndex: z.number().nonnegative(),
-  index: z.number().nonnegative(),
-  scores: matchScore.array().default([]),
+/** @param {Partial<Slot>} data */
+export const createSlot = data => slot.parse({
+  player: data.player || 'BYE',
+  isBye: !data.player,
+  score: data.score ?? null,
+  status: data.status ?? null,
+  winner: data.winner ?? false,
 });

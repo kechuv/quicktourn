@@ -1,4 +1,4 @@
-import { createMatchScore } from '$lib/schemas/tourns/match.schema';
+import { createSlot } from '$lib/schemas/tourns/match.schema';
 import { chunk } from 'lodash-es';
 import { rotateClockwise, slaughter } from './sortStrategies';
 
@@ -23,15 +23,16 @@ const reorder = (els, newOrder) => newOrder.map(idx => structuredClone(els[idx])
 /**
  * @callback FormatCreator
  * @param {import('$lib/schemas/tourns/tourn.schema').TournSchema['participants']} pArray
- * @returns {import('$lib/schemas/tourns/match.schema').Round[]}
+ * @returns {import('$lib/schemas/tourns/tourn.schema').RoundSchema[]}
  */
 
 /** @type {FormatCreator} */
 function createRoundRobin(pArray) {
-  if (!pArray.length) return [];
+  /** @typedef {import('$lib/schemas/tourns/tourn.schema').RoundSchema} Round */
+  if (!pArray.length) return /** @type {Round[]} */([]);
   const copy = [...pArray];
   if (pArray.length % 2) copy.push('');
-  const slots = copy.map(p => createMatchScore(p));
+  const slots = copy.map(p => createSlot({ player: p }));
   const rotation = rotateClockwise(slots.length);
   /** @type {typeof slots[]} */
   const roundsArr = new Array(slots.length - 1)
@@ -48,7 +49,7 @@ function createRoundRobin(pArray) {
 
 /** @type {FormatCreator} */
 function createSingleBracket(pArray) {
-  /** @typedef {import('$lib/schemas/tourns/match.schema').Round} Round */
+  /** @typedef {import('$lib/schemas/tourns/tourn.schema').RoundSchema} Round */
   if (!pArray.length) return /** @type {Round[]} */([]);
 
   const copy = [...pArray];
@@ -56,11 +57,15 @@ function createSingleBracket(pArray) {
   const slotsLength = 2 ** roundsLength;
   const slots = new Array(slotsLength)
     .fill(null)
-    .map((_, pIdx) => createMatchScore(copy[pIdx]));
+    .map((_, pIdx) => createSlot({ player: copy[pIdx] }));
   /** @type {Round[]} */
   const roundsArr = new Array(roundsLength)
     .fill(null)
     .reduce((acc, r, rIdx) => {
+      if (!rIdx && roundsLength <= 1) {
+        acc[rIdx] = [[...slots]];
+        return acc;
+      }
       if (!rIdx) {
         const sort = sortMatches(roundsLength);
         const sorted = sort.map(idx => slots[idx]);
@@ -97,22 +102,23 @@ function createSingleBracket(pArray) {
     const flated = sortedMatches.flat(itrs);
     return flated;
   }
-  /** @param {Round[]} rounds   */
+  /** @param {Round[]} rounds */
   function qualifyMatches(rounds) {
-    const round1 = [...rounds[0]];
-    const round2 = [...rounds[1]];
-    round1.forEach((match, matchIdx) => {
-      const hasBye = match.some(s => s.isBye);
+    const roundsCopy = structuredClone(rounds);
+    roundsCopy[0].forEach((match, matchIdx) => {
+      const hasBye = match.some(slot => slot?.isBye);
       if (!hasBye) return;
-      const realPlayerIdx = match.findIndex(s => !s.isBye);
-      const nextMatch = Math.floor(matchIdx / 2);
-      const nextSlot = matchIdx % 2;
-      round2[nextMatch][nextSlot] = createMatchScore(match[realPlayerIdx].player);
+      const playerIdx = match.findIndex(s => !s?.isBye);
+      const player = match[playerIdx];
+      match[playerIdx] = createSlot({
+        ...player,
+        winner: true,
+      });
+      if (!roundsCopy[1]) return;
+      const nextMatchIdx = Math.floor(matchIdx / 2);
+      const nextSlotIdx = matchIdx % 2;
+      roundsCopy[1][nextMatchIdx][nextSlotIdx] = createSlot({ player: player?.player });
     });
-    return rounds.map((r, rIdx) => {
-      if (rIdx === 0) return round1;
-      if (rIdx === 1) return round2;
-      return r;
-    });
+    return roundsCopy;
   }
 }

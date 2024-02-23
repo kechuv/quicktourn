@@ -1,5 +1,12 @@
 import slugify from '$lib/tools/slugify';
 import { z } from 'zod';
+import { slot } from './match.schema';
+
+/** @typedef {z.infer<typeof match>} MatchSchema */
+const match = slot.nullable()
+  .array();
+/** @typedef {z.infer<typeof round>} RoundSchema */
+const round = match.array();
 
 export const tournParticipant = z.string();
 
@@ -18,7 +25,7 @@ export const tournSchema = z.object({
   name: z.string(),
   slug: z.string(),
   participants: tournParticipant.array().default([]),
-  rounds: z.any().array()
+  rounds: round.array()
     .default([]),
 });
 
