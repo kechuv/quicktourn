@@ -49,21 +49,28 @@ function setWinner(slotIdx) {
         value={slotData?.score ?? null}
       />
       <button
-        class="rounded-r p-1 {slotData?.winner
-          ? 'text-stone-700'
-          : 'text-stone-400'}"
+        class="rounded-r p-1"
+        class:bg-amber-400={match.every(s => s?.winner)}
         class:bg-lime-400={slotData?.winner}
+        class:bg-stone-200={!slotData?.winner}
+        class:text-stone-400={!slotData?.winner}
+        class:text-stone-700={slotData?.winner}
         onclick={() => setWinner(slotIdx)}
         type="button"
       >
-        Win
+        {#if match.every(slot => slot?.winner)}
+          <span>Draw</span>
+        {:else}
+          <span>Win</span>
+        {/if}
       </button>
     </div>
   </div>
 {/snippet}
 
 <fieldset
-  class="divide-y-2"
+  class="divide-y-2 divide-stone-300 rounded bg-stone-200"
+  class:opacity-40={match?.some(s => !s || s?.isBye)}
   disabled={match?.some(s => !s || s?.isBye)}
 >
   {#each match as slot, slotIdx}

@@ -15,7 +15,7 @@ const { rounds, updateTourn } = $props();
  * @param {number} matchIdx
  */
 function reportMatch(roundIdx, matchIdx) {
-  /** @param {import('$lib/schemas/tourns/tourn.schema').MatchSchema} match */
+  /** @param {typeof rounds[0][0]} match */
   function updateRounds(match) {
     const copyRounds = structuredClone(rounds);
     copyRounds[roundIdx][matchIdx] = match;
@@ -23,7 +23,7 @@ function reportMatch(roundIdx, matchIdx) {
   }
   /**
    * @param {number} slotIdx
-   * @param {import('$lib/schemas/tourns/match.schema').Slot | null} slot
+   * @param {typeof rounds[0][0][0]} slot
    */
   function reportScore(slotIdx, slot) {
     const currentMatch = rounds[roundIdx][matchIdx];
@@ -35,16 +35,19 @@ function reportMatch(roundIdx, matchIdx) {
   }
   /**
    * @param {number} slotIdx
-   * @param {import('$lib/schemas/tourns/match.schema').Slot | null} slot
+   * @param {typeof rounds[0][0][0]} slot
    */
   function reportWinner(slotIdx, slot) {
     const currentMatch = rounds[roundIdx][matchIdx];
     const newMatch = currentMatch.map((s, sIdx) => {
       if (sIdx === slotIdx) return slot;
-      if (!s) return s;
+      if (!s) return null;
       return {
         ...s,
         winner: false,
+      // score: currentMatch.some(s => !s)
+        //   ? null
+        //   : s.score,
       };
     });
     updateRounds(newMatch);
@@ -71,7 +74,7 @@ function reportMatch(roundIdx, matchIdx) {
           {#if rIdx > 0}
             <div class="absolute right-[calc(100%_+_1rem)] -z-10 h-[calc(50%_+_0.5rem)] w-8 rounded border-y-2 border-r-2 border-stone-300 before:content-[''] after:absolute after:left-full after:top-1/2 after:w-5 after:-translate-y-1/2 after:border-t-2 after:border-stone-300" />
           {/if}
-          <div class="divide-y-2 divide-stone-300 rounded bg-stone-200">
+          <div class="">
             <Match
               match={match}
               matchIdx={mIdx}

@@ -10,6 +10,23 @@ const round = match.array();
 
 export const tournParticipant = z.string();
 
+/** @typedef {z.infer<typeof boardSchema>} BoardSchema */
+export const boardSchema = z.object({
+  w: z.number().nonnegative(),
+  d: z.number().nonnegative(),
+  l: z.number().nonnegative(),
+});
+/** @param {Partial<BoardSchema>} points */
+export const createBoard = (points) => {
+  return boardSchema.parse({
+    w: points.w ?? 0,
+    d: points.d ?? 0,
+    l: points.l ?? 0,
+  });
+};
+/** @typedef {z.infer<typeof leaderboardSchema>} LeaderboardSchema */
+export const leaderboardSchema = z.record(boardSchema);
+
 /** @typedef {z.infer<typeof tournFormats>} TournFormats */
 export const tournFormats = z.enum([
   'roundRobin',
@@ -27,6 +44,7 @@ export const tournSchema = z.object({
   participants: tournParticipant.array().default([]),
   rounds: round.array()
     .default([]),
+  leaderboard: leaderboardSchema.default({}),
 });
 
 /** @param {OptionalExcept<TournSchema, 'name'|'format'>} tourn */

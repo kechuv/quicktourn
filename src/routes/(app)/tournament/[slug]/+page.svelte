@@ -1,13 +1,24 @@
 <script>
+import { createBoard } from '$lib/schemas/tourns/tourn.schema';
 import { useTournStore } from '$lib/stores/tournStore.svelte';
 import Bracket from './Bracket.svelte';
 import Participants from './Participants.svelte';
+import RoundRobin from './RoundRobin.svelte';
 import { formatFactory } from './formatFactory';
 
 const tournStore = useTournStore();
 
 const tourn = $derived(tournStore.currentTourn);
 const createRounds = $derived(formatFactory(tourn?.format));
+
+/** @param {typeof tourn.participants} participants */
+function createLeaderboard(participants) {
+  const leaderboard = participants.reduce((acc, p) => {
+    acc[p] = createBoard({});
+    return acc;
+  }, /** @type {import('$lib/schemas/tourns/tourn.schema').LeaderboardSchema} */({}));
+  return leaderboard;
+}
 
 /** @param {typeof tourn.participants[0]} participant */
 function handleRegister(participant) {
@@ -18,6 +29,9 @@ function handleRegister(participant) {
     ...tourn,
     participants: updated,
     rounds,
+    leaderboard: tourn.format === 'roundRobin'
+      ? createLeaderboard(updated)
+      : {},
   });
 }
 /** @param {typeof tourn.participants[0]} participant */
@@ -29,6 +43,9 @@ function handleUnregister(participant) {
     ...tourn,
     participants: updated,
     rounds,
+    leaderboard: tourn.format === 'roundRobin'
+      ? createLeaderboard(updated)
+      : {},
   });
 }
 
@@ -37,6 +54,13 @@ function updateTourn(newRounds) {
   tournStore.updateTourn({
     ...tourn,
     rounds: newRounds,
+  });
+}
+/** @param {any} newLeaderboard */
+function updateLeaderboard(newLeaderboard) {
+  tournStore.updateTourn({
+    ...tourn,
+    leaderboard: newLeaderboard,
   });
 }
 </script>
@@ -55,6 +79,14 @@ function updateTourn(newRounds) {
     {#if tourn?.format === 'singleBracket'}
       <Bracket
         rounds={tourn.rounds}
+        {updateTourn}
+      />
+    {/if}
+    {#if tourn?.format === 'roundRobin'}
+      <RoundRobin
+        leaderboard={tourn.leaderboard}
+        rounds={tourn.rounds}
+        {updateLeaderboard}
         {updateTourn}
       />
     {/if}
