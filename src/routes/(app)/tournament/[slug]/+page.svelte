@@ -1,0 +1,97 @@
+<script>
+import { createBoard } from '$lib/schemas/tourns/tourn.schema';
+import { useTournStore } from '$lib/stores/tournStore.svelte';
+import Bracket from './Bracket.svelte';
+import Participants from './Participants.svelte';
+import RoundRobin from './RoundRobin.svelte';
+import { formatFactory } from './formatFactory';
+
+const tournStore = useTournStore();
+
+const tourn = $derived(tournStore.currentTourn);
+const createRounds = $derived(formatFactory(tourn?.format));
+
+/** @param {typeof tourn.participants} participants */
+function createLeaderboard(participants) {
+  const leaderboard = participants.reduce((acc, p) => {
+    acc[p] = createBoard({});
+    return acc;
+  }, /** @type {import('$lib/schemas/tourns/tourn.schema').LeaderboardSchema} */({}));
+  return leaderboard;
+}
+
+/** @param {typeof tourn.participants[0]} participant */
+function handleRegister(participant) {
+  if (!participant) return;
+  const updated = [...tourn.participants, participant];
+  const rounds = createRounds(updated);
+  tournStore.updateTourn({
+    ...tourn,
+    participants: updated,
+    rounds,
+    leaderboard: tourn.format === 'roundRobin'
+      ? createLeaderboard(updated)
+      : {},
+  });
+}
+/** @param {typeof tourn.participants[0]} participant */
+function handleUnregister(participant) {
+  if (!tourn.participants.includes(participant)) return;
+  const updated = tourn.participants.filter(p => p !== participant);
+  const rounds = createRounds(updated);
+  tournStore.updateTourn({
+    ...tourn,
+    participants: updated,
+    rounds,
+    leaderboard: tourn.format === 'roundRobin'
+      ? createLeaderboard(updated)
+      : {},
+  });
+}
+
+/** @param {import('$lib/schemas/tourns/tourn.schema').RoundSchema[]} newRounds */
+function updateTourn(newRounds) {
+  tournStore.updateTourn({
+    ...tourn,
+    rounds: newRounds,
+  });
+}
+/** @param {any} newLeaderboard */
+function updateLeaderboard(newLeaderboard) {
+  tournStore.updateTourn({
+    ...tourn,
+    leaderboard: newLeaderboard,
+  });
+}
+</script>
+
+<div class="grid grid-rows-[30svh_1fr] gap-8 p-4 lg:grid-cols-[auto_1fr] lg:grid-rows-[1fr]">
+  <div class="p-2">
+    {#if tourn?.participants}
+      <Participants
+        participants={tourn.participants}
+        register={handleRegister}
+        unregister={handleUnregister}
+      />
+    {/if}
+  </div>
+  <div
+    class="h-full p-2"
+    class:overflow-auto={tourn?.format === 'singleBracket'}
+  >
+    {#if tourn?.format === 'singleBracket'}
+      <Bracket
+        rounds={tourn.rounds}
+        {updateTourn}
+      />
+    {/if}
+    {#if tourn?.format === 'roundRobin'}
+      <RoundRobin
+        leaderboard={tourn.leaderboard}
+        rounds={tourn.rounds}
+        {updateLeaderboard}
+        {updateTourn}
+      />
+    {/if}
+  </div>
+</div>
