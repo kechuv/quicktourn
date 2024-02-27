@@ -6,4 +6,11 @@
   body {
     background-color: theme(colors.stone.50);
   }
+  input,
+  select {
+    background-color: theme(colors.stone.100);
+    border-color: theme(colors.stone.300);
+    border-width: 1px;
+    border-radius: theme(borderRadius.DEFAULT);
+  }
 }

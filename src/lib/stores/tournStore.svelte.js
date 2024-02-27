@@ -68,7 +68,9 @@ function createTournStore() {
 
     /** @param {Tourn['slug']} id */
     function deleteTourn(id) {
-      delete tournList[id];
+      const copy = { ...tournList };
+      delete copy[id];
+      tournList = copy;
     }
 
     return {

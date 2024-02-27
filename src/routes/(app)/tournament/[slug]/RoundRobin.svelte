@@ -11,7 +11,9 @@ import Match from './Match.svelte';
  */
 const { rounds, leaderboard, updateTourn, updateLeaderboard } = $props();
 let selectedRound = $state(0);
-const currentRound = $derived(rounds[selectedRound]);
+// const currentRound = $derived(rounds[selectedRound]);
+/** @type {'matches'|'leaderboard'} */
+let view = $state('matches');
 const board = $derived.by(() => {
   /** @type {[string, number][]} */
   const scores = Object.entries(leaderboard).map(([player, { w, d }]) => {
@@ -91,61 +93,83 @@ function reportMatch(roundIdx, matchIdx) {
 </script>
 
 {#snippet boardHeader()}
-  <tr>
-    <th>Player</th>
+  <tr class="*:p-1">
+    <th class="text-left">Player</th>
     <th>W</th>
     <th>D</th>
     <th>L</th>
   </tr>
 {/snippet}
 {#snippet boardRow([player, board])}
-  <tr>
-    <th>{player}</th>
-    <td>{board.w}</td>
-    <td>{board.d}</td>
-    <td>{board.l}</td>
+  <tr class="*:p-1 odd:bg-stone-200">
+    <th class="text-left">{player}</th>
+    <td class="w-8 text-center">{board.w}</td>
+    <td class="w-8 text-center">{board.d}</td>
+    <td class="w-8 text-center">{board.l}</td>
   </tr>
 {/snippet}
 
 {#snippet scoresHeader()}
-  <tr>
-    <th>Player</th>
-    <th>Score</th>
+  <tr class="*:p-1">
+    <th class="text-left">Player</th>
+    <th>Points</th>
   </tr>
 {/snippet}
 {#snippet scoresRow([player, score])}
-  <tr>
-    <th>{player}</th>
-    <td>{score}</td>
+  <tr class="*:p-1 odd:bg-stone-200">
+    <th class="text-left">{player}</th>
+    <td class="text-center">{score}</td>
   </tr>
 {/snippet}
 
-<div>
-  <select bind:value={selectedRound}>
-    <!-- eslint-disable-next-line no-unused-vars -->
-    {#each rounds as _round, rIdx}
-      <option value={rIdx}>
-        Round {rIdx + 1}
-      </option>
-    {/each}
-  </select>
+<div class="grid gap-8">
+  <div class="sticky top-0 grid grid-flow-col">
+    <button
+      class="{view === 'matches'
+        ? 'bg-stone-300'
+        : 'bg-stone-100'}"
+      onclick={() => view = 'matches'}
+      type="button"
+    >
+      Matches
+    </button>
+    <button
+      class="{view === 'leaderboard'
+        ? 'bg-stone-300'
+        : 'bg-stone-100'}"
+      onclick={() => view = 'leaderboard'}
+      type="button"
+    >
+      Leaderboard
+    </button>
+  </div>
 
-  <div class="grid grid-flow-col items-start gap-8">
-    <div class="grid gap-2">
-      {#each currentRound as match, mIdx}
-        <Match
-          {match}
-          matchIdx={mIdx}
-          reportScore={reportMatch(selectedRound, mIdx).reportScore}
-          reportWinner={reportMatch(selectedRound, mIdx).reportWinner}
-          roundIdx={selectedRound}
-        />
+  {#if view === 'matches'}
+    <div class="grid gap-8">
+      {#each rounds as round, rIdx}
+        <div class="grid gap-2">
+          <h1 class="font-bold">Round {rIdx + 1}</h1>
+          <div class="grid gap-1">
+            {#each round as match, mIdx}
+              <Match
+                {match}
+                matchIdx={mIdx}
+                reportScore={reportMatch(rIdx, mIdx).reportScore}
+                reportWinner={reportMatch(rIdx, mIdx).reportWinner}
+                roundIdx={selectedRound}
+              />
+            {/each}
+          </div>
+        </div>
       {/each}
     </div>
-    <div class="grid grid-flow-col">
-      <div>
-        <h1>Board</h1>
-        <table>
+  {/if}
+
+  {#if view === 'leaderboard'}
+    <div class="grid gap-4">
+      <div class="grid gap-4">
+        <!-- <h1>Board</h1> -->
+        <table class="border-separate border-spacing-y-0 rounded border border-stone-200">
           <thead>
             {@render boardHeader()}
           </thead>
@@ -156,9 +180,10 @@ function reportMatch(roundIdx, matchIdx) {
           </tbody>
         </table>
       </div>
-      <div>
-        <h1>Leaderboard</h1>
-        <table>
+
+      <div class="grid gap-4">
+        <!-- <h1>Leaderboard</h1> -->
+        <table class="border-separate border-spacing-y-0 rounded border border-stone-200">
           <thead>
             {@render scoresHeader()}
           </thead>
@@ -170,5 +195,5 @@ function reportMatch(roundIdx, matchIdx) {
         </table>
       </div>
     </div>
-  </div>
+  {/if}
 </div>

@@ -11,7 +11,8 @@
 		"strict": true,
 		"moduleResolution": "bundler",
 		"types": [
-			"lodash-es"
+			"lodash-es",
+			"uuid"
 		]
 	}
 	// Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias and https://kit.svelte.dev/docs/configuration#files

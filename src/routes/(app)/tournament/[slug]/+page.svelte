@@ -65,7 +65,7 @@ function updateLeaderboard(newLeaderboard) {
 }
 </script>
 
-<div class="grid grid-cols-[auto_1fr] gap-8">
+<div class="grid grid-rows-[30svh_1fr] gap-8 p-4 lg:grid-cols-[auto_1fr] lg:grid-rows-[1fr]">
   <div class="p-2">
     {#if tourn?.participants}
       <Participants
@@ -75,7 +75,10 @@ function updateLeaderboard(newLeaderboard) {
       />
     {/if}
   </div>
-  <div class="p-2">
+  <div
+    class="h-full p-2"
+    class:overflow-auto={tourn?.format === 'singleBracket'}
+  >
     {#if tourn?.format === 'singleBracket'}
       <Bracket
         rounds={tourn.rounds}

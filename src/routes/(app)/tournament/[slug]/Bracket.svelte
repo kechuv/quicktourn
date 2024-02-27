@@ -72,7 +72,7 @@ function reportMatch(roundIdx, matchIdx) {
       {#each round as match, mIdx}
         <li class="relative grid items-center">
           {#if rIdx > 0}
-            <div class="absolute right-[calc(100%_+_1rem)] -z-10 h-[calc(50%_+_0.5rem)] w-8 rounded border-y-2 border-r-2 border-stone-300 before:content-[''] after:absolute after:left-full after:top-1/2 after:w-5 after:-translate-y-1/2 after:border-t-2 after:border-stone-300" />
+            <div class="absolute right-[calc(100%_+_1rem)] -z-10 h-[calc(50%_+_0.4rem)] w-4 rounded-r border-y-2 border-r-2 border-stone-300 before:content-[''] after:absolute after:left-full after:top-1/2 after:w-5 after:-translate-y-1/2 after:border-t-2 after:border-stone-300" />
           {/if}
           <div class="">
             <Match

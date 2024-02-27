@@ -15,9 +15,4 @@ $effect(() => {
 });
 </script>
 
-<div class="grid gap-8">
-  <h1>{tournListStore.currentTourn?.name}</h1>
-  <div>
-    <slot />
-  </div>
-</div>
+<slot />

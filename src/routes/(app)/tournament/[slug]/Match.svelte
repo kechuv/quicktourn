@@ -10,6 +10,14 @@
  */
 let { match, roundIdx, matchIdx, reportWinner, reportScore } = $props();
 
+/** @param {typeof match[0]} slot */
+function getMatchStatus(slot) {
+  if (match.every(s => s?.winner)) return 'bg-amber-400';
+  return slot?.winner
+    ? 'bg-lime-400'
+    : 'bg-stone-200';
+}
+
 /**
  * @param {number} slotIdx
  * @param {Event & { currentTarget: EventTarget & HTMLInputElement }} e
@@ -39,20 +47,17 @@ function setWinner(slotIdx) {
 {#snippet slotView(slotData, slotIdx)}
   <div class="grid grid-cols-[1fr_auto] items-center">
     <div class="p-1">{slotData?.player}</div>
-    <div class="grid h-full grid-cols-[3rem_auto]">
+    <div class="grid h-full grid-cols-[3rem_3rem]">
       <input
         id={`${roundIdx}.${matchIdx}.${slotIdx}`}
         name={`${roundIdx}.${matchIdx}.${slotIdx}`}
-        class="h-full w-full bg-stone-300 text-center text-[.8rem] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+        class="h-full w-full rounded-none bg-stone-300 text-center text-[.8rem] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
         oninput={e => setScore(slotIdx, e)}
         type="number"
         value={slotData?.score ?? null}
       />
       <button
-        class="rounded-r p-1"
-        class:bg-amber-400={match.every(s => s?.winner)}
-        class:bg-lime-400={slotData?.winner}
-        class:bg-stone-200={!slotData?.winner}
+        class="rounded-r p-1 {getMatchStatus(slotData)}"
         class:text-stone-400={!slotData?.winner}
         class:text-stone-700={slotData?.winner}
         onclick={() => setWinner(slotIdx)}
@@ -69,7 +74,7 @@ function setWinner(slotIdx) {
 {/snippet}
 
 <fieldset
-  class="divide-y-2 divide-stone-300 rounded bg-stone-200"
+  class="min-w-[200px] divide-y-2 divide-stone-300 rounded bg-stone-200"
   class:opacity-40={match?.some(s => !s || s?.isBye)}
   disabled={match?.some(s => !s || s?.isBye)}
 >

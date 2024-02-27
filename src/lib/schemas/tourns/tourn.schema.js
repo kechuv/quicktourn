@@ -1,6 +1,7 @@
 import slugify from '$lib/tools/slugify';
 import { z } from 'zod';
 import { slot } from './match.schema';
+import { v4 as uuidv4 } from 'uuid';
 
 /** @typedef {z.infer<typeof match>} MatchSchema */
 const match = slot.nullable()
@@ -37,7 +38,7 @@ export const tournFormats = z.enum([
 /** @typedef {z.infer<typeof tournSchema>} TournSchema */
 export const tournSchema = z.object({
   id: z.string().uuid()
-    .default(() => crypto.randomUUID()),
+    .default(() => uuidv4()),
   format: tournFormats,
   name: z.string(),
   slug: z.string(),
