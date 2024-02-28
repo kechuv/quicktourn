@@ -23,6 +23,7 @@ function createLeaderboard(participants) {
 /** @param {typeof tourn.participants[0]} participant */
 function handleRegister(participant) {
   if (!participant) return;
+  if (tourn.participants.includes(participant)) return;
   const updated = [...tourn.participants, participant];
   const rounds = createRounds(updated);
   tournStore.updateTourn({
