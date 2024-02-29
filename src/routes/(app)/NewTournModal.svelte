@@ -46,12 +46,11 @@ function handleCreateTourn(format) {
 </script>
 
 <button
-  class="aspect-square w-8 rounded bg-stone-300 transition-colors hover:bg-stone-100 lg:aspect-auto lg:w-auto lg:p-2"
+  class="rounded bg-stone-200 p-2 transition-colors hover:bg-stone-300"
   onclick={showModal}
   type="button"
 >
-  <span class="hidden lg:block">New Tournament</span>
-  <span class="text-[1.5rem] leading-none lg:hidden">+</span>
+  <span class="block">New Tournament</span>
 </button>
 
 <dialog

@@ -27,10 +27,13 @@ function handleUnregister(participant) {
 }
 </script>
 
-<div class="grid grid-rows-[auto_1fr] gap-4">
-  <div class="grid">
+<div class="grid gap-2">
+  <div class="sticky top-0 grid gap-2 bg-stone-50 pb-2">
     <h1>Add participant:</h1>
-    <form onsubmit={handleRegister}>
+    <form
+      class="grid gap-2"
+      onsubmit={handleRegister}
+    >
       <input
         type="text"
         bind:value={input}
@@ -44,7 +47,7 @@ function handleUnregister(participant) {
     </form>
   </div>
 
-  <ol class="grid h-[20svh] content-start gap-1 overflow-auto">
+  <ol class="grid h-full content-start gap-1">
     {#each participants as participant}
       <li class="grid w-full grid-cols-[1fr_25px] rounded bg-stone-100 transition-colors hover:bg-stone-200">
         <span class="p-1">

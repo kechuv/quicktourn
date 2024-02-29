@@ -66,33 +66,33 @@ function updateLeaderboard(newLeaderboard) {
 }
 </script>
 
-<div class="grid grid-rows-[30svh_1fr] gap-8 p-4 lg:grid-cols-[auto_1fr] lg:grid-rows-[1fr]">
-  <div class="p-2">
-    {#if tourn?.participants}
-      <Participants
-        participants={tourn.participants}
-        register={handleRegister}
-        unregister={handleUnregister}
-      />
-    {/if}
-  </div>
-  <div
-    class="h-full p-2"
-    class:overflow-auto={tourn?.format === 'singleBracket'}
-  >
-    {#if tourn?.format === 'singleBracket'}
-      <Bracket
-        rounds={tourn.rounds}
-        {updateTourn}
-      />
-    {/if}
-    {#if tourn?.format === 'roundRobin'}
-      <RoundRobin
-        leaderboard={tourn.leaderboard}
-        rounds={tourn.rounds}
-        {updateLeaderboard}
-        {updateTourn}
-      />
-    {/if}
+<div class="grid h-full grid-rows-[auto_1fr] gap-2 overflow-hidden">
+  <h1 class="text-bold sticky top-0 z-10 w-full bg-stone-50 text-center font-bold">{tourn?.name}</h1>
+  <div class="grid h-full grid-rows-[1fr_2fr] gap-8 overflow-auto px-4 lg:grid-cols-[250px_1fr] lg:grid-rows-[1fr]">
+    <div class="h-full overflow-auto px-2">
+      {#if tourn?.participants}
+        <Participants
+          participants={tourn.participants}
+          register={handleRegister}
+          unregister={handleUnregister}
+        />
+      {/if}
+    </div>
+    <div class="h-full overflow-auto px-2">
+      {#if tourn?.format === 'singleBracket'}
+        <Bracket
+          rounds={tourn.rounds}
+          {updateTourn}
+        />
+      {/if}
+      {#if tourn?.format === 'roundRobin'}
+        <RoundRobin
+          leaderboard={tourn.leaderboard}
+          rounds={tourn.rounds}
+          {updateLeaderboard}
+          {updateTourn}
+        />
+      {/if}
+    </div>
   </div>
 </div>
