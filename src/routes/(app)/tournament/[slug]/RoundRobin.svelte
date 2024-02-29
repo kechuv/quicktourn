@@ -123,20 +123,22 @@ function reportMatch(roundIdx, matchIdx) {
 {/snippet}
 
 <div class="grid gap-8">
-  <div class="sticky top-0 grid grid-flow-col">
+  <div class="sticky top-0 z-10 grid grid-flow-col bg-stone-50 pt-1">
     <button
-      class="{view === 'matches'
+      class="p-1 rounded-l {view === 'matches'
         ? 'bg-stone-300'
         : 'bg-stone-100'}"
+      class:font-bold={view === 'matches'}
       onclick={() => view = 'matches'}
       type="button"
     >
       Matches
     </button>
     <button
-      class="{view === 'leaderboard'
+      class="p-1 rounded-r {view === 'leaderboard'
         ? 'bg-stone-300'
         : 'bg-stone-100'}"
+      class:font-bold={view === 'leaderboard'}
       onclick={() => view = 'leaderboard'}
       type="button"
     >

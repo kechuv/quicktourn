@@ -2,6 +2,13 @@
 import { page } from '$app/stores';
 import { useTournStore } from '$lib/stores/tournStore.svelte';
 
+/**
+ * @type {{
+ *  toggleMenu: (status: boolean) => void
+ * }}
+ */
+let { toggleMenu } = $props();
+
 const tournStore = useTournStore();
 const tournList = $derived(Object.values(tournStore.tournList || {}));
 
@@ -11,7 +18,7 @@ function handleRemove(tourn) {
 }
 </script>
 
-<ol class="grid gap-1 p-2">
+<ol class="grid h-full gap-1 overflow-auto px-4 py-2">
   {#if tournList.length}
     {#each tournList as tourn}
       <li
@@ -22,6 +29,7 @@ function handleRemove(tourn) {
           class="p-[2px] pl-1"
           class:font-bold={$page.params.slug === tourn.slug}
           href={`/tournament/${tourn.slug}`}
+          onclick={() => toggleMenu(false)}
           title={tourn.name}
           type="button"
         >
