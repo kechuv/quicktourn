@@ -86,7 +86,7 @@ function handleCreateTourn(e) {
 >
   <div class="grid gap-4 p-4">
     <button
-      class="w-8 justify-self-end"
+      class="justify-self-end p-[2px]"
       onclick={closeModal}
       type="button"
     >
