@@ -5,6 +5,7 @@
 @layer base {
   body {
     background-color: theme(colors.stone.50);
+    color: theme(colors.stone.700);
   }
   input,
   select {
@@ -16,4 +17,15 @@
 }
 
 @layer components {
+  .btn {
+    background-color: theme(colors.stone.200);
+    transition-property: theme(transitionProperty.colors);
+    transition-duration: theme(transitionDuration.150);
+    transition-timing-function: theme(transitionTimingFunction.in-out);
+    border-radius: theme(borderRadius.DEFAULT);
+    padding: theme(padding.2);
+    &:hover {
+      background-color: theme(colors.stone.300);
+    }
+  }
 }
