@@ -44,7 +44,7 @@ function handleRemove(tourn) {
               <LeagueIcon />
             {/if}
           </span>
-          <span>{tourn.name}</span>
+          <span class="py-1">{tourn.name}</span>
         </a>
         <button
           class="flex h-full w-full items-center justify-center rounded-r transition-colors hover:bg-red-400"
