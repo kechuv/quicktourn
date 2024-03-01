@@ -2,7 +2,7 @@
 import { fly } from 'svelte/transition';
 
 // import BottomNav from './BottomNav.svelte';
-import LeftNav from './LeftNav.svelte';
+import SideNav from './SideNav.svelte';
 import NewTournModal from './NewTournModal.svelte';
 
 /** @type {number} */
@@ -27,12 +27,13 @@ function toggleMenu(status) {
         opacity: 1,
       }}
     >
-      <LeftNav {toggleMenu} />
+      <SideNav {toggleMenu} />
     </aside>
   {/if}
   <slot />
-  <footer class="grid h-full grid-flow-col items-center justify-between bg-stone-100 px-4">
+  <footer class="grid h-full grid-cols-3 items-center justify-between justify-items-center bg-stone-100 px-4">
     <button
+      class="flex aspect-square items-center justify-center justify-self-start rounded bg-stone-200 p-2 hover:bg-stone-300"
       onclick={() => toggleMenu()}
       type="button"
     >
@@ -70,7 +71,9 @@ function toggleMenu(status) {
         </svg>
       {/if}
     </button>
-    <NewTournModal />
     <h1 class="font-bold">Quick tournament</h1>
+    <div class="justify-self-end">
+      <NewTournModal />
+    </div>
   </footer>
 </div>
