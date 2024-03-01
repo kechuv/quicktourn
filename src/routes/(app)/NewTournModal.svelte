@@ -105,7 +105,7 @@ function handleCreateTourn(e) {
       </label>
 
       <button
-        class="grid justify-items-center gap-1 border-2 border-stone-200 p-2 transition-colors hover:bg-stone-200"
+        class="grid justify-items-center gap-1 rounded border-2 border-stone-200 p-2 transition-colors hover:bg-stone-200"
         class:bg-stone-200={form.format === 'singleBracket'}
         onclick={() => form.format = 'singleBracket'}
         type="button"
@@ -116,7 +116,7 @@ function handleCreateTourn(e) {
         Elimination
       </button>
       <button
-        class="grid justify-items-center gap-1 border-2 border-stone-200 p-2 transition-colors hover:bg-stone-200"
+        class="grid justify-items-center gap-1 rounded border-2 border-stone-200 p-2 transition-colors hover:bg-stone-200"
         class:bg-stone-200={form.format === 'roundRobin'}
         onclick={() => form.format = 'roundRobin'}
         type="button"
