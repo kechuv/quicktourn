@@ -31,9 +31,9 @@ function toggleMenu(status) {
     </aside>
   {/if}
   <slot />
-  <footer class="grid h-full grid-cols-3 items-center justify-between justify-items-center bg-stone-100 px-4">
+  <footer class="grid h-full grid-cols-[auto_1fr_auto] items-center justify-between justify-items-center bg-stone-100 px-4">
     <button
-      class="flex aspect-square items-center justify-center justify-self-start rounded bg-stone-200 p-2 hover:bg-stone-300"
+      class="flex aspect-square w-[40px] items-center justify-center justify-self-start rounded bg-stone-200 p-2 hover:bg-stone-300"
       onclick={() => toggleMenu()}
       type="button"
     >
