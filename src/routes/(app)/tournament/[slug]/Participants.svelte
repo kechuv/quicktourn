@@ -1,4 +1,6 @@
 <script>
+import CloseIcon from '$lib/components/CloseIcon.svelte';
+
 /**
  * @type {{
  *  participants: import("$lib/schemas/tourns/tourn.schema").TournSchema['participants'],
@@ -39,7 +41,7 @@ function handleUnregister(participant) {
         bind:value={input}
       />
       <button
-        class="rounded bg-stone-200 px-2 py-1 transition-colors hover:bg-stone-300"
+        class="btn px-2 py-1"
         type="submit"
       >
         Add
@@ -49,30 +51,16 @@ function handleUnregister(participant) {
 
   <ol class="grid h-full content-start gap-1">
     {#each participants as participant}
-      <li class="grid w-full grid-cols-[1fr_25px] rounded bg-stone-100 transition-colors hover:bg-stone-200">
+      <li class="btn grid w-full grid-cols-[1fr_25px] bg-stone-100 p-0 hover:bg-stone-200">
         <span class="p-1">
           { participant }
         </span>
         <button
-          class="flex items-center justify-center rounded-r transition-colors hover:bg-red-500"
+          class="flex items-center justify-center rounded-r transition-colors hover:bg-red-400"
           onclick={() => handleUnregister(participant)}
           type="button"
         >
-          <svg
-            height="24px"
-            viewBox="0 0 24 24"
-            width="24px"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M12 12L7 7m5 5l5 5m-5-5l5-5m-5 5l-5 5"
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-            />
-          </svg>
+          <CloseIcon />
         </button>
       </li>
     {/each}

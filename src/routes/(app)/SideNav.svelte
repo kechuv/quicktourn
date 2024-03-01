@@ -1,5 +1,8 @@
 <script>
 import { page } from '$app/stores';
+import BracketIcon from '$lib/components/BracketIcon.svelte';
+import CloseIcon from '$lib/components/CloseIcon.svelte';
+import LeagueIcon from '$lib/components/LeagueIcon.svelte';
 import { useTournStore } from '$lib/stores/tournStore.svelte';
 
 /**
@@ -26,34 +29,28 @@ function handleRemove(tourn) {
         class:bg-stone-300={$page.params.slug === tourn.slug}
       >
         <a
-          class="p-[2px] pl-1"
+          class="grid grid-cols-[auto_1fr] items-center gap-1 pl-1"
           class:font-bold={$page.params.slug === tourn.slug}
           href={`/tournament/${tourn.slug}`}
           onclick={() => toggleMenu(false)}
           title={tourn.name}
           type="button"
         >
-          {tourn.name}
+          <span class="block w-4 text-[1rem] leading-none">
+            {#if tourn.format === 'singleBracket'}
+              <BracketIcon />
+            {/if}
+            {#if tourn.format === 'roundRobin'}
+              <LeagueIcon />
+            {/if}
+          </span>
+          <span>{tourn.name}</span>
         </a>
         <button
-          class="flex h-full w-full items-center justify-center rounded-r transition-colors hover:bg-red-500"
+          class="flex h-full w-full items-center justify-center rounded-r transition-colors hover:bg-red-400"
           onclick={() => handleRemove(tourn)}
         >
-          <svg
-            height="24px"
-            viewBox="0 0 24 24"
-            width="24px"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M12 12L7 7m5 5l5 5m-5-5l5-5m-5 5l-5 5"
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-            />
-          </svg>
+          <CloseIcon />
         </button>
       </li>
     {/each}
