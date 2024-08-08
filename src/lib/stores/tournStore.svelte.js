@@ -1,6 +1,5 @@
 import { createTourn } from '$lib/schemas/tourns/tourn.schema';
 import { getStorage, setStorage } from '$lib/tools/localStorage';
-import { unstate } from 'svelte';
 
 function createTournStore() {
   /** @typedef {import('$lib/schemas/tourns/tourn.schema').TournSchema} Tourn */
@@ -44,7 +43,7 @@ function createTournStore() {
 
     /** @param {Tourn['slug']} id */
     function getTourn(id = lastTourn) {
-      return unstate(tournList[id]);
+      return $state.snapshot(tournList[id]);
     }
 
     /** @param {Tourn} tourn */
@@ -75,13 +74,13 @@ function createTournStore() {
 
     return {
       get tournList() {
-        return unstate(tournList);
+        return $state.snapshot(tournList);
       },
       get lastTourn() {
-        return unstate(lastTourn);
+        return $state.snapshot(lastTourn);
       },
       get currentTourn() {
-        return unstate(tournList[lastTourn]);
+        return $state.snapshot(tournList[lastTourn]);
       },
       setLastTourn,
       addTourn,
