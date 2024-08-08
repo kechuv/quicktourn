@@ -7,6 +7,8 @@ import NewTournModal from './NewTournModal.svelte';
 import CloseIcon from '$lib/components/CloseIcon.svelte';
 import MenuIcon from '$lib/components/MenuIcon.svelte';
 
+let { children } = $props();
+
 /** @type {number} */
 let width = $state(0);
 let showMenu = $state(false);
@@ -19,7 +21,7 @@ function toggleMenu(status) {
 </script>
 
 <svelte:window bind:innerWidth={width} />
-<div class="grid h-[100svh] grid-rows-[1fr_60px]">
+<div class="grid h-dvh grid-rows-[1fr_60px]">
   {#if showMenu}
     <aside
       class="fixed top-0 z-20 grid h-[calc(100%_-_60px)] w-full content-end bg-stone-100 lg:w-[300px]"
@@ -32,7 +34,7 @@ function toggleMenu(status) {
       <SideNav {toggleMenu} />
     </aside>
   {/if}
-  <slot />
+  {@render children()}
   <footer class="grid h-full grid-cols-[auto_1fr_auto] items-center justify-between justify-items-center bg-stone-100 px-4">
     <button
       class="flex aspect-square w-[40px] items-center justify-center justify-self-start rounded bg-stone-200 p-2 hover:bg-stone-300"

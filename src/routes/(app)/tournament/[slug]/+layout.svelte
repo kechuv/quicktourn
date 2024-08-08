@@ -3,6 +3,7 @@ import { goto } from '$app/navigation';
 import { page } from '$app/stores';
 import { useTournStore } from '$lib/stores/tournStore.svelte';
 
+let { children } = $props();
 const slug = $derived($page.params.slug);
 
 const tournListStore = useTournStore();
@@ -15,4 +16,4 @@ $effect(() => {
 });
 </script>
 
-<slot />
+{@render children()}

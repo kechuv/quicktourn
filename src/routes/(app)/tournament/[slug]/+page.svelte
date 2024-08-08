@@ -81,7 +81,7 @@ function updateLeaderboard(newLeaderboard) {
     <span>{tourn?.name}</span>
   </h1>
   <div class="grid h-full grid-rows-[1fr_2fr] gap-8 overflow-auto px-4 lg:grid-cols-[250px_1fr] lg:grid-rows-[1fr]">
-    <div class="h-full overflow-auto px-2">
+    <aside class="h-full overflow-auto px-2">
       {#if tourn?.participants}
         <Participants
           participants={tourn.participants}
@@ -89,8 +89,8 @@ function updateLeaderboard(newLeaderboard) {
           unregister={handleUnregister}
         />
       {/if}
-    </div>
-    <div class="h-full overflow-auto px-2">
+    </aside>
+    <main class="h-full overflow-auto px-2">
       {#if tourn?.format === 'singleBracket'}
         <Bracket
           rounds={tourn.rounds}
@@ -105,6 +105,6 @@ function updateLeaderboard(newLeaderboard) {
           {updateTourn}
         />
       {/if}
-    </div>
+    </main>
   </div>
 </div>
