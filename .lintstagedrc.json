@@ -1,7 +1,7 @@
 {
   "./src/**/*.{js,jsx,ts,tsx,svelte}": [
     "eslint --fix",
-    "pnpm check",
-    "pnpm test -- related --run"
+    "npm check",
+    "npm test -- related --run"
   ]
 }
