@@ -18,8 +18,7 @@
   );
 </script>
 
-<!-- <div class="grid auto-cols-[300px] grid-flow-col gap-8"> -->
-<div class="carousel w-dvw carousel-center gap-8 px-4">
+<div class="carousel w-full carousel-center gap-8 px-4">
   {#each rounds as round, rIdx (rIdx)}
     <div class={['grid grid-rows-[auto_1fr] gap-2']}>
       <h2 class="badge justify-self-center">
