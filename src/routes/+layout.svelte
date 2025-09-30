@@ -116,6 +116,7 @@
       >
         {#snippet invoker()}
           <button
+            id="new-tourn"
             class="btn btn-sm btn-primary"
             onclick={() => modal?.showModal()}
             type="button"
