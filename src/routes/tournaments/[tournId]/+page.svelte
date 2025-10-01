@@ -127,11 +127,11 @@
     <h1 class="flex items-center gap-1 justify-self-center p-1">
       {tourn.name}
       {#if tourn.format === 'round-robin'}
-        <span class="badge badge-xs [--badge-color:var(--color-red-200)]">
+        <span class="badge badge-xs [--badge-color:var(--color-roundrobin)]">
           League
         </span>
       {:else}
-        <span class="badge badge-xs [--badge-color:var(--color-orange-200)]">
+        <span class="badge badge-xs [--badge-color:var(--color-elimination)]">
           Elimination
         </span>
       {/if}

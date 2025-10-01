@@ -1,5 +1,19 @@
 @import 'tailwindcss';
 
+:root {
+  --roundrobin-color: var(--color-red-200);
+  --elimination-color: var(--color-orange-200);
+  @media (prefers-color-scheme: dark) {
+    --roundrobin-color: var(--color-red-400);
+    --elimination-color: var(--color-orange-400);
+  }
+}
+
+@theme inline {
+  --color-roundrobin: var(--roundrobin-color);
+  --color-elimination: var(--elimination-color);
+}
+
 @plugin "daisyui/theme" {
   name: 'default';
   default: true;
