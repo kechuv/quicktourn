@@ -37,7 +37,7 @@
         {/if}
       </div>
       <input
-        class="input input-sm w-[70px] rounded-none p-1"
+        class="input input-sm rounded-none"
         disabled={hasBye}
         oninput={(e) => {
           const newVal = e.currentTarget.valueAsNumber;
