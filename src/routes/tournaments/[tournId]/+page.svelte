@@ -152,7 +152,7 @@
         />
       </div>
     </details>
-    <div class="hidden h-full md:block">
+    <div class="hidden min-h-full md:grid">
       <Participants
         {onParticipantsUpdated}
         participantsList={tourn.participants}

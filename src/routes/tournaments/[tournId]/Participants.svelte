@@ -25,7 +25,7 @@
   };
 </script>
 
-<div class="grid h-full w-full grid-rows-[auto_1fr] gap-2">
+<div class="grid min-h-full w-full grid-rows-[auto_1fr] gap-2">
   <form
     class="bg-base-100 p-1"
     onsubmit={(e) => {
