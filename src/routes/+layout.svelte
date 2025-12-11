@@ -44,7 +44,7 @@
   />
 </svelte:head>
 
-<div class="grid h-dvh w-dvw grid-rows-[1fr_auto]">
+<div class="grid h-dvh w-full grid-rows-[1fr_auto]">
   <main class="min-h-full min-w-full">
     {@render children?.()}
   </main>

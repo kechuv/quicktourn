@@ -119,10 +119,10 @@
 </script>
 
 <div
-  class="grid h-full w-full grid-rows-[auto_1fr] gap-2 overflow-auto md:grid-cols-[250px_1fr] md:grid-rows-1"
+  class="grid h-full grid-rows-[auto_1fr] gap-2 overflow-auto p-2 md:grid-cols-[250px_1fr] md:grid-rows-1"
 >
   <div
-    class="sticky top-0 left-0 z-10 grid w-dvw grid-rows-[auto_1fr] gap-1 bg-base-100 p-2 md:w-full"
+    class="sticky top-0 left-0 z-10 grid w-full grid-rows-[auto_1fr] gap-1 bg-base-100"
   >
     <h1 class="flex items-center gap-1 justify-self-center p-1">
       {tourn.name}
@@ -145,7 +145,7 @@
           {tourn.participants.length}
         </span>
       </summary>
-      <div class="collapse-content h-[35dvh] grid-rows-[1fr] text-sm">
+      <div class="collapse-content grid h-[35dvh] grid-rows-[1fr] text-sm">
         <Participants
           {onParticipantsUpdated}
           participantsList={tourn.participants}
@@ -159,7 +159,7 @@
       />
     </div>
   </div>
-  <div class="py-4 md:pb-0">
+  <div class="overflow-auto py-4 md:pb-0">
     {#if tourn.format === 'single-elimination'}
       <SingleElimination {matches}>
         {#snippet children(match)}
